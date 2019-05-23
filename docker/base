@@ -1,0 +1,17 @@
+FROM ubuntu:18.04
+
+WORKDIR /root/
+RUN apt update -y && apt upgrade -y && apt install -y git
+RUN git clone --progress --verbose https://github.com/PIVX-Project/PIVX.git
+
+RUN apt update -y
+RUN apt upgrade -y
+RUN apt install -y autoconf libtool libboost-all-dev bsdmainutils libssl-dev
+
+WORKDIR PIVX
+RUN ./autogen.sh 
+RUN ./configure \
+  --prefix=/opt/yescoin \
+  --oldincludedir=/usr/include \
+  --disable-wallet \
+  --disable-silent-rules 
