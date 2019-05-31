@@ -1,0 +1,8 @@
+# python related files and folders
+venv/
+__pycache__/
+*.pyo
+*.pyc
+
+# ignore local logs
+logs/

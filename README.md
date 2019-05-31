@@ -1,2 +1,1 @@
 # yescoin
-# yescoin
