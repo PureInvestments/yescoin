@@ -10,14 +10,7 @@ RUN apt update -y
 RUN apt upgrade -y
 RUN apt install -y \
   autoconf libtool libboost-all-dev bsdmainutils libssl-dev curl \
-  libdb++-dev wget
-
-RUN mkdir berkeley_db
-WORKDIR berkeley_db
-RUN wget http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz
-RUN tar -xf db-4.8.30.tar.gz
-WORKDIR db-4.8.30/build_unix
-RUN ../dist/configure && make && make install
+  libdb++-dev wget libevent-dev libgmp-dev
 
 WORKDIR /root/build/PIVX/depends
 RUN make
@@ -26,4 +19,6 @@ RUN ./autogen.sh
 RUN ./configure \
   --prefix=/opt/yescoin \
   --oldincludedir=/usr/include \
-  --disable-silent-rules
+  --disable-silent-rules \
+  --with-incompatible-bdb \
+  --with-unsupported-ssl
