@@ -1,16 +1,27 @@
 FROM ubuntu:18.04
 
 WORKDIR /root/
+RUN mkdir build
+WORKDIR /root/build
 RUN apt update -y && apt upgrade -y && apt install -y git
 RUN git clone --progress --verbose https://github.com/PIVX-Project/PIVX.git
 
 RUN apt update -y
 RUN apt upgrade -y
-RUN apt install -y autoconf libtool libboost-all-dev bsdmainutils libssl-dev curl
+RUN apt install -y \
+  autoconf libtool libboost-all-dev bsdmainutils libssl-dev curl \
+  libdb++-dev wget
 
-WORKDIR PIVX/depends
-RUN make -j4
-WORKDIR /root/PIVX
+RUN mkdir berkeley_db
+WORKDIR berkeley_db
+RUN wget http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz
+RUN tar -xf db-4.8.30.tar.gz
+WORKDIR db-4.8.30/build_unix
+RUN ../dist/configure && make && make install
+
+WORKDIR /root/build/PIVX/depends
+RUN make
+WORKDIR /root//build/PIVX
 RUN ./autogen.sh
 RUN ./configure \
   --prefix=/opt/yescoin \
