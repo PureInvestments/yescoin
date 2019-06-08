@@ -1,0 +1,5 @@
+# build docker image
+$ docker build -t yescoin:<tag> - < $DOCKERFILE
+
+# tags should follow the Dockerfile name, minus the .Dockerfile extension
+$ docker build -t yescoin:pivx.blockchain - < pivx.blockchain.Dockerfile
